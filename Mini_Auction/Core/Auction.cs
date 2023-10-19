@@ -37,8 +37,8 @@ namespace Mini_Auction.Core
             Status = status;    
         }
 
-        public bool AddBids(Bid b)
-        {
+        public bool AddBids(Bid b){
+
             Bids.Add(b);
             if (Bids.Contains(b))
             {
@@ -46,5 +46,23 @@ namespace Mini_Auction.Core
             }
             return false;
         }
+
+        public bool RemoveBids(Bid b) {
+
+            Bids.Remove(b);
+            
+            if (Bids.Contains(b)) { 
+                return false;
+            }
+            return true;
+        }
+
+        public static Auction FromAuctionVM(AuctionVM auctionVM)
+        {
+            return new Auction(auctionVM.Id,auctionVM.Title,auctionVM.Description,
+                auctionVM.SellerId,auctionVM.StartingPrice, auctionVM.EndTime, auctionVM.Status);
+        }
+
+
     }
 }

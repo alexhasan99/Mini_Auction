@@ -27,6 +27,15 @@ namespace Mini_Auction.Controllers
             return View(auctionVMs);
         }
 
+        // POST: AuctionController/Create
+        [HttpPost]
+        public ActionResult Create(AuctionVM auctionVM)
+        {
+            _auctionService.AddAuction(Auction.FromAuctionVM(auctionVM));
+
+            return RedirectToAction(nameof(Index));
+        }
+
         // GET: AuctionController/Details/5
         /*public ActionResult Details(int id)
         {
@@ -37,21 +46,6 @@ namespace Mini_Auction.Controllers
         public ActionResult Create()
         {
             return View();
-        }
-
-        // POST: AuctionController/Create
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Create(IFormCollection collection)
-        {
-            try
-            {
-                return RedirectToAction(nameof(Index));
-            }
-            catch
-            {
-                return View();
-            }
         }
 
         // GET: AuctionController/Edit/5
