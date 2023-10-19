@@ -1,7 +1,12 @@
+using Mini_Auction.Core.Interfaces;
+using Mini_Auction.Core;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
+builder.Services.AddScoped<IAuctionService, AuctionService>();
+
 
 var app = builder.Build();
 

@@ -1,4 +1,6 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using Mini_Auction.Core;
+using NuGet.Packaging.Signing;
+using System.ComponentModel.DataAnnotations;
 
 namespace Mini_Auction.ViewModel
 {
@@ -21,16 +23,30 @@ namespace Mini_Auction.ViewModel
 
         public List<BidVM> Bids { get; set; }
 
-        public AuctionVM(int id, string title, string description,
-            string sellerId, decimal startingPrice, DateTime endTime, List<BidVM> bids)
+        public Status Status { get; set; }
+
+        public static AuctionVM FromAuction (Auction auction)
         {
-            Id = id;
-            Title = title;
-            Description = description;
-            SellerId = sellerId;
-            StartingPrice = startingPrice;
-            EndTime = endTime;
-            Bids = bids;
+            return new AuctionVM()
+            {
+                Id = auction.Id,
+                Title = auction.Title,
+                Description = auction.Description,
+                SellerId = auction.SellerId,
+                StartingPrice = auction.StartingPrice,
+                EndTime = auction.EndTime,
+                Status = auction.Status,
+        };
+        }
+        
+        public bool AddBids (BidVM b)
+        {
+            Bids.Add(b);
+            if (Bids.Contains (b))
+            {
+                return true;
+            }
+            return false;
         }
     }
 

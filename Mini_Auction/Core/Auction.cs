@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using Mini_Auction.ViewModel;
+using System.ComponentModel.DataAnnotations;
 
 namespace Mini_Auction.Core
 {
@@ -19,10 +20,12 @@ namespace Mini_Auction.Core
         [Required]
         public DateTime EndTime { get; set; }
 
+        public Status Status { get; set; }
+
         public List<Bid> Bids { get; set; }
 
         public Auction(int id, string title, string description, 
-            string sellerId, decimal startingPrice, DateTime endTime, List<Bid> bids)
+            string sellerId, decimal startingPrice, DateTime endTime, Status status)
         {
             Id = id;
             Title = title;
@@ -30,7 +33,18 @@ namespace Mini_Auction.Core
             SellerId = sellerId;
             StartingPrice = startingPrice;
             EndTime = endTime;
-            Bids = bids;
+            Bids = new List<Bid>();
+            Status = status;    
+        }
+
+        public bool AddBids(Bid b)
+        {
+            Bids.Add(b);
+            if (Bids.Contains(b))
+            {
+                return true;
+            }
+            return false;
         }
     }
 }
