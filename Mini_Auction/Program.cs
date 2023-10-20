@@ -1,11 +1,24 @@
 using Mini_Auction.Core.Interfaces;
 using Mini_Auction.Core;
+using Mini_Auction.Persistence;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Identity;
+using Mini_Auction.Areas.Identity.Data;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
 builder.Services.AddScoped<IAuctionService, AuctionService>();
+
+builder.Services.AddDbContext<AuctionDbContext>(options =>
+    options.UseSqlServer(builder.Configuration.GetConnectionString("AuctionDbConnection")));
+
+//Identity Configration
+builder.Services.AddDefaultIdentity<AuctionUser>(options => options.SignIn.RequireConfirmedAccount = true).AddEntityFrameworkStores<AuctionIdentityContext>();
+
+builder.Services.AddDbContext<AuctionIdentityContext>(options =>
+   options.UseSqlServer(builder.Configuration.GetConnectionString("AuctionIdentityDbConnection")));
 
 var app = builder.Build();
 
@@ -28,5 +41,7 @@ app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Home}/{action=Index}/{id?}");
 
+
+app.MapRazorPages();
 app.Run();
  

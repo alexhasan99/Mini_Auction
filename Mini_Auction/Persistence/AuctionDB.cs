@@ -20,7 +20,7 @@ namespace Mini_Auction.Persistence
         public UserDB UserDb { get; set; }
 
         [Required]
-        public decimal StartingPrice { get; set; }
+        public double StartingPrice { get; set; }
 
         [Required]
         [DataType(DataType.DateTime)]
