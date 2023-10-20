@@ -1,5 +1,5 @@
 ﻿using Mini_Auction.ViewModel;
-using System.ComponentModel.DataAnnotations;
+
 
 namespace Mini_Auction.Core
 {
@@ -7,17 +7,14 @@ namespace Mini_Auction.Core
     {
         public int Id { get; set; }
 
-        [Required]
         public string Title { get; set; }
 
         public string Description { get; set; }
 
         public string SellerId { get; set; }
-
-        [Required]
+       
         public decimal StartingPrice { get; set; }
 
-        [Required]
         public DateTime EndTime { get; set; }
 
         public Status Status { get; set; }
