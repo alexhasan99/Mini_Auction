@@ -3,9 +3,11 @@ using Microsoft.AspNetCore.Mvc;
 using Mini_Auction.Core;
 using Mini_Auction.ViewModel;
 using Mini_Auction.Core.Interfaces;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Mini_Auction.Controllers
 {
+    [Authorize]
     public class AuctionController : Controller
     {
         private readonly IAuctionService _auctionService;

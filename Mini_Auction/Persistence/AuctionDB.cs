@@ -16,8 +16,8 @@ namespace Mini_Auction.Persistence
 
         public string Description { get; set; }
 
-        [ForeignKey("SellerId")]
-        public UserDB UserDb { get; set; }
+        
+        public string userName { get; set; }
 
         [Required]
         public double StartingPrice { get; set; }
