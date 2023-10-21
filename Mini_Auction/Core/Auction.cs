@@ -13,7 +13,7 @@ namespace Mini_Auction.Core
 
         public string UserName { get; set; }
        
-        public decimal StartingPrice { get; set; }
+        public double StartingPrice { get; set; }
 
         public DateTime EndTime { get; set; }
 
@@ -22,7 +22,7 @@ namespace Mini_Auction.Core
         public List<Bid> Bids { get; set; }
 
         public Auction(int id, string title, string description, 
-            string userName, decimal startingPrice, DateTime endTime, Status status)
+            string userName, double startingPrice, DateTime endTime, Status status)
         {
             Id = id;
             Title = title;

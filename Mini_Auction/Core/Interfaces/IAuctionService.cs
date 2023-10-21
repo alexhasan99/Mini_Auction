@@ -2,7 +2,7 @@
 {
     public interface IAuctionService
     {
-        List<Auction> GetAllAuctions();
+        List<Auction> GetAllByUser(string username);
 
         bool AddAuction(Auction a);
     }

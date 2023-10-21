@@ -14,7 +14,7 @@ namespace Mini_Auction.ViewModel
 
         public string SellerId { get; set; }
 
-        public decimal StartingPrice { get; set; }
+        public double StartingPrice { get; set; }
 
         public DateTime EndTime { get; set; }
 

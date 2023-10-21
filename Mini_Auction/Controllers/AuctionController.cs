@@ -20,8 +20,10 @@ namespace Mini_Auction.Controllers
         // GET: AuctionController
         public ActionResult Index()
         {
+            string userName = User.Identity.Name;
             List<AuctionVM> auctionVMs = new();
-            foreach (var auction in _auctionService.GetAllAuctions())
+            List<Auction> auctions = _auctionService.GetAllByUser(userName);
+            foreach (Auction auction in auctions)
             {
                 auctionVMs.Add(AuctionVM.FromAuction(auction));
             }

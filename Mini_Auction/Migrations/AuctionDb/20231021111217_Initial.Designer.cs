@@ -12,7 +12,7 @@ using Mini_Auction.Persistence;
 namespace Mini_Auction.Migrations.AuctionDb
 {
     [DbContext(typeof(AuctionDbContext))]
-    [Migration("20231021095859_Initial")]
+    [Migration("20231021111217_Initial")]
     partial class Initial
     {
         /// <inheritdoc />
@@ -43,8 +43,9 @@ namespace Mini_Auction.Migrations.AuctionDb
                     b.Property<double>("StartingPrice")
                         .HasColumnType("float");
 
-                    b.Property<int>("Status")
-                        .HasColumnType("int");
+                    b.Property<string>("Status")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Title")
                         .IsRequired()
@@ -64,9 +65,9 @@ namespace Mini_Auction.Migrations.AuctionDb
                         {
                             Id = 1,
                             Description = "Konsol",
-                            EndTime = new DateTime(2023, 10, 21, 11, 58, 59, 749, DateTimeKind.Local).AddTicks(7182),
+                            EndTime = new DateTime(2023, 10, 21, 13, 12, 17, 184, DateTimeKind.Local).AddTicks(2064),
                             StartingPrice = 3000.0,
-                            Status = 0,
+                            Status = "Active",
                             Title = "Playstation 5",
                             userName = "mohammad.hasan19999@gmail.com"
                         });

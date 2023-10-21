@@ -22,7 +22,7 @@ namespace Mini_Auction.Migrations.AuctionDb
                     userName = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     StartingPrice = table.Column<double>(type: "float", nullable: false),
                     EndTime = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    Status = table.Column<int>(type: "int", nullable: false)
+                    Status = table.Column<string>(type: "nvarchar(max)", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -54,7 +54,7 @@ namespace Mini_Auction.Migrations.AuctionDb
             migrationBuilder.InsertData(
                 table: "Auctions",
                 columns: new[] { "Id", "Description", "EndTime", "StartingPrice", "Status", "Title", "userName" },
-                values: new object[] { 1, "Konsol", new DateTime(2023, 10, 21, 11, 58, 59, 749, DateTimeKind.Local).AddTicks(7182), 3000.0, 0, "Playstation 5", "mohammad.hasan19999@gmail.com" });
+                values: new object[] { 1, "Konsol", new DateTime(2023, 10, 21, 13, 12, 17, 184, DateTimeKind.Local).AddTicks(2064), 3000.0, "Active", "Playstation 5", "mohammad.hasan19999@gmail.com" });
 
             migrationBuilder.CreateIndex(
                 name: "IX_Bids_AuctionId",

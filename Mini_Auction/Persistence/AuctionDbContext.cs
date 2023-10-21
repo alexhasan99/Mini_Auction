@@ -12,6 +12,10 @@ namespace Mini_Auction.Persistence
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            modelBuilder.Entity<AuctionDB>()
+            .Property(e => e.Status)
+            .HasConversion<string>();
+
             AuctionDB adb = new AuctionDB
             {
                 Id = 1,
