@@ -29,7 +29,7 @@ namespace Mini_Auction.ViewModel
                 Id = auction.Id,
                 Title = auction.Title,
                 Description = auction.Description,
-                SellerId = auction.SellerId,
+                SellerId = auction.UserName,
                 StartingPrice = auction.StartingPrice,
                 EndTime = auction.EndTime,
                 Status = auction.Status,

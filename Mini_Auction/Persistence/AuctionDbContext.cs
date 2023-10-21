@@ -9,16 +9,25 @@ namespace Mini_Auction.Persistence
         public DbSet<AuctionDB> Auctions { get; set; }
 
         public DbSet<BidDB> Bids { get; set; }
-    }
-    /*protected override void OnModelCreating(ModelBuilder modelBuilder)
-    {
-        
-        // Förhindra kaskad borttagning från UserDB till Bids
-        modelBuilder.Entity<UserDB>()
-            .HasMany(u => u.Bids)
-            .WithOne(b => b.Bidder)
-            .OnDelete(DeleteBehavior.NoAction);
 
-        // Ange beteendet för kaskad borttagning mellan andra tabeller om det är nödvändigt
-    }*/
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            AuctionDB adb = new AuctionDB
+            {
+                Id = 1,
+                Title = "Playstation 5",
+                Description = "Konsol",
+                userName = "mohammad.hasan19999@gmail.com",
+                StartingPrice = 3000,
+                EndTime = DateTime.Now,
+                Status = Core.Status.Active
+
+            };
+            modelBuilder.Entity<AuctionDB>().HasData(adb);
+
+        }
+
+    }
+    
 }
+
