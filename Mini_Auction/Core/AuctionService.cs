@@ -21,10 +21,24 @@ namespace Mini_Auction.Core
 
         public List<Auction> GetAllByUser(string username)
         {
-            Console.WriteLine(username);
             return _auctionPersistence.GetAllByUsername(username);
-
         }
-        
+
+
+        public bool CreateAuction(Auction auction)
+        {
+            
+            return _auctionPersistence.CreateAuction(auction);
+        }
+
+        public Auction GetAuctionById(int id)
+        {
+            return _auctionPersistence.GetAuctionById(id);
+        }
+
+        public List<Auction> GetAllAuctions()
+        {
+            return _auctionPersistence.GetAllActiveAuctions();
+        }
     }
 }

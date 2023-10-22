@@ -10,12 +10,17 @@ namespace Mini_Auction.Persistence
 
         public DbSet<BidDB> Bids { get; set; }
 
+        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        {
+
+            //optionsBuilder.AddInterceptors(new AuctionStatusInterceptor());
+
+        }
+
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<AuctionDB>()
-            .Property(e => e.Status)
-            .HasConversion<string>();
-
+            
             AuctionDB adb = new AuctionDB
             {
                 Id = 1,
@@ -24,14 +29,16 @@ namespace Mini_Auction.Persistence
                 userName = "mohammad.hasan19999@gmail.com",
                 StartingPrice = 3000,
                 EndTime = DateTime.Now,
-                Status = Core.Status.Active
+                Status = 1,
 
             };
             modelBuilder.Entity<AuctionDB>().HasData(adb);
 
         }
 
+        
+
     }
-    
+
 }
 

@@ -40,9 +40,8 @@ namespace Mini_Auction.Migrations.AuctionDb
                     b.Property<double>("StartingPrice")
                         .HasColumnType("float");
 
-                    b.Property<string>("Status")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<int>("Status")
+                        .HasColumnType("int");
 
                     b.Property<string>("Title")
                         .IsRequired()
@@ -62,9 +61,9 @@ namespace Mini_Auction.Migrations.AuctionDb
                         {
                             Id = 1,
                             Description = "Konsol",
-                            EndTime = new DateTime(2023, 10, 21, 13, 12, 17, 184, DateTimeKind.Local).AddTicks(2064),
+                            EndTime = new DateTime(2023, 10, 21, 23, 10, 22, 658, DateTimeKind.Local).AddTicks(7341),
                             StartingPrice = 3000.0,
-                            Status = "Active",
+                            Status = 1,
                             Title = "Playstation 5",
                             userName = "mohammad.hasan19999@gmail.com"
                         });

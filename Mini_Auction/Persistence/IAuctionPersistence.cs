@@ -6,5 +6,11 @@ namespace Mini_Auction.Persistence
     {
         public List<Auction> GetAllByUsername(string username);
 
+        public bool CreateAuction(Auction auction);
+
+        public Auction GetAuctionById(int id);
+
+        public List<Auction> GetAllActiveAuctions();
+
     }
 }

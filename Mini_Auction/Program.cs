@@ -5,6 +5,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Identity;
 using Mini_Auction.Areas.Identity.Data;
 using Microsoft.AspNetCore.Hosting;
+using System.Configuration;
 
 var builder = WebApplication.CreateBuilder(args);
 

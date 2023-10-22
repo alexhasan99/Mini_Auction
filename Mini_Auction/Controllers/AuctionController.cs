@@ -18,11 +18,11 @@ namespace Mini_Auction.Controllers
         }
 
         // GET: AuctionController
-        public ActionResult Index()
+        public ActionResult ActiveAuctions()
         {
-            string userName = User.Identity.Name;
+            
             List<AuctionVM> auctionVMs = new();
-            List<Auction> auctions = _auctionService.GetAllByUser(userName);
+            List<Auction> auctions = _auctionService.GetAllAuctions();
             foreach (Auction auction in auctions)
             {
                 auctionVMs.Add(AuctionVM.FromAuction(auction));
@@ -31,19 +31,37 @@ namespace Mini_Auction.Controllers
             return View(auctionVMs);
         }
 
+        //GET
+        public ActionResult GetUserAuctions()
+        {
+            string userName = User.Identity.Name;
+            List<AuctionVM> auctionVMs = new List<AuctionVM>();
+            List<Auction> auctions = _auctionService.GetAllByUser(userName);
+
+            foreach (Auction auction in auctions)
+            {
+                auctionVMs.Add(AuctionVM.FromAuction(auction));
+            }
+
+            return View("UserAuctions", auctionVMs); // Använd namnet på din nya vy här.
+        }
+
+
         // POST: AuctionController/Create
         [HttpPost]
         public ActionResult Create(AuctionVM auctionVM)
         {
-            _auctionService.AddAuction(Auction.FromAuctionVM(auctionVM));
+            auctionVM.SellerId = User.Identity.Name;
+            _auctionService.CreateAuction(Auction.FromAuctionVM(auctionVM));
 
             return RedirectToAction(nameof(Index));
         }
 
         // GET: AuctionController/Details/5
-        /*public ActionResult Details(int id)
+        public ActionResult Details(int id)
         {
-            return View();
+            AuctionVM auctionVm = AuctionVM.FromAuction(_auctionService.GetAuctionById(id));
+            return View(auctionVm);
         }
 
         // GET: AuctionController/Create
@@ -92,6 +110,6 @@ namespace Mini_Auction.Controllers
             {
                 return View();
             }
-        }*/
+        }
     }
 }

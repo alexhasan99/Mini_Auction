@@ -1,7 +1,8 @@
-﻿namespace Mini_Auction.Core
+﻿public enum Status
 {
-    public enum Status
-    {
-        Active,Ended
-    }
+    Active = 1,
+    Ended = 0,
+    
 }
+
+

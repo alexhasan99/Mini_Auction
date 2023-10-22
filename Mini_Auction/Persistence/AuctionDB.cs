@@ -26,7 +26,7 @@ namespace Mini_Auction.Persistence
         [DataType(DataType.DateTime)]
         public DateTime EndTime { get; set; }
 
-        public Status Status { get; set; }
+        public int Status { get; set; }
 
         public IEnumerable<BidDB> Bids { get; set; } = new List<BidDB>();
     }
