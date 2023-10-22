@@ -4,6 +4,7 @@ using Mini_Auction.Core;
 using Mini_Auction.ViewModel;
 using Mini_Auction.Core.Interfaces;
 using Microsoft.AspNetCore.Authorization;
+using Mini_Auction.Persistence;
 
 namespace Mini_Auction.Controllers
 {
@@ -38,6 +39,8 @@ namespace Mini_Auction.Controllers
             List<AuctionVM> auctionVMs = new List<AuctionVM>();
             List<Auction> auctions = _auctionService.GetAllByUser(userName);
 
+            if(auctionVMs.Count == 0) NotFound();
+
             foreach (Auction auction in auctions)
             {
                 auctionVMs.Add(AuctionVM.FromAuction(auction));
@@ -54,15 +57,45 @@ namespace Mini_Auction.Controllers
             auctionVM.SellerId = User.Identity.Name;
             _auctionService.CreateAuction(Auction.FromAuctionVM(auctionVM));
 
-            return RedirectToAction(nameof(Index));
+            return RedirectToAction(nameof(ActiveAuctions));
         }
 
         // GET: AuctionController/Details/5
         public ActionResult Details(int id)
         {
             AuctionVM auctionVm = AuctionVM.FromAuction(_auctionService.GetAuctionById(id));
+
+            if (!auctionVm.SellerId.Equals(User.Identity.Name) && auctionVm.Status == 0                                                                       ) 
+                return BadRequest();
+
             return View(auctionVm);
         }
+
+        
+
+        // POST: AuctionController/PlaceBid
+        [HttpPost]
+        public ActionResult PlaceBid(BidVM b)
+        {
+            string userName = User.Identity.Name;
+
+            b.BidderId = userName;
+
+            Console.WriteLine(b.AuctionId);
+
+            if (_auctionService.PlaceBid(Bid.FromBidVM(b)))
+            {
+                
+                return RedirectToAction(nameof(ActiveAuctions));
+            }
+            else
+            {
+                
+                return BadRequest(); 
+            }
+        }
+       
+
 
         // GET: AuctionController/Create
         public ActionResult Create()

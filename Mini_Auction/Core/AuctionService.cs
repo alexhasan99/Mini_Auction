@@ -40,5 +40,15 @@ namespace Mini_Auction.Core
         {
             return _auctionPersistence.GetAllActiveAuctions();
         }
+
+        public bool PlaceBid(Bid bid)
+        {
+            if (!_auctionPersistence.CanPlaceBid(bid))
+            {
+                return false;
+            }
+            _auctionPersistence.PlaceBid(bid);
+            return true;
+        }
     }
 }

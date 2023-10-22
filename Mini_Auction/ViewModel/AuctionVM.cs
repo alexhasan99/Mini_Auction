@@ -1,4 +1,5 @@
 ﻿using Mini_Auction.Core;
+using Mini_Auction.Persistence;
 using NuGet.Packaging.Signing;
 using System.ComponentModel.DataAnnotations;
 
@@ -24,7 +25,7 @@ namespace Mini_Auction.ViewModel
 
         public static AuctionVM FromAuction (Auction auction)
         {
-            return new AuctionVM()
+            AuctionVM a= new AuctionVM()
             {
                 Id = auction.Id,
                 Title = auction.Title,
@@ -33,7 +34,13 @@ namespace Mini_Auction.ViewModel
                 StartingPrice = auction.StartingPrice,
                 EndTime = auction.EndTime,
                 Status = auction.Status,
-        };
+            };
+            foreach (Bid b in auction.Bids)
+            {
+                a.AddBids(new BidVM(b.Id, b.AuctionId, b.BidderId, b.Amount, b.BidTime));
+            }
+
+            return a;
         }
         
         public bool AddBids (BidVM b)

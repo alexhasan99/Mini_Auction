@@ -56,8 +56,16 @@ namespace Mini_Auction.Core
 
         public static Auction FromAuctionVM(AuctionVM auctionVM)
         {
-            return new Auction(auctionVM.Id,auctionVM.Title,auctionVM.Description,
-                auctionVM.SellerId,auctionVM.StartingPrice, auctionVM.EndTime, auctionVM.Status);
+            Auction auction= new Auction(auctionVM.Id, auctionVM.Title, auctionVM.Description,
+                auctionVM.SellerId, auctionVM.StartingPrice, auctionVM.EndTime, auctionVM.Status);
+            if (auctionVM.Bids != null)
+            {
+                foreach (BidVM b in auctionVM.Bids)
+                {
+                    auction.AddBids(new Bid(b.Id, b.AuctionId, b.BidderId, b.Amount, b.BidTime));
+                }
+            }
+            return auction;
         }
 
 

@@ -12,5 +12,9 @@ namespace Mini_Auction.Persistence
 
         public List<Auction> GetAllActiveAuctions();
 
+        public bool CanPlaceBid(Bid bid);
+
+        public bool PlaceBid(Bid bid);
+
     }
 }

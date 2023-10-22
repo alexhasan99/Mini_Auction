@@ -12,6 +12,7 @@ using System.ComponentModel.DataAnnotations;
         [ForeignKey("AuctionId")]
         public AuctionDB AuctionDB { get; set; }
 
+        public int AuctionId { get; set; }
         
         public string userName { get; set; }
 

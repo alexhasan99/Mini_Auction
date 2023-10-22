@@ -11,5 +11,7 @@
         public Auction GetAuctionById(int id);
 
         List<Auction> GetAllAuctions();
+
+        public bool PlaceBid(Bid bid);
     }
 }
