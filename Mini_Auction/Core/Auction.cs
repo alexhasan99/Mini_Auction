@@ -34,11 +34,13 @@ namespace Mini_Auction.Core
             Status = status;    
         }
 
-        public bool AddBids(Bid b){
+        public bool AddBids(Bid b)
+        {
 
             Bids.Add(b);
             if (Bids.Contains(b))
             {
+                Bids = Bids.OrderByDescending(bid => bid.Amount).ToList();
                 return true;
             }
             return false;
@@ -58,9 +60,9 @@ namespace Mini_Auction.Core
         {
             Auction auction= new Auction(auctionVM.Id, auctionVM.Title, auctionVM.Description,
                 auctionVM.SellerId, auctionVM.StartingPrice, auctionVM.EndTime, auctionVM.Status);
-            if (auctionVM.Bids != null)
+            if (auctionVM.BidsVMs != null)
             {
-                foreach (BidVM b in auctionVM.Bids)
+                foreach (BidVM b in auctionVM.BidsVMs)
                 {
                     auction.AddBids(new Bid(b.Id, b.AuctionId, b.BidderId, b.Amount, b.BidTime));
                 }

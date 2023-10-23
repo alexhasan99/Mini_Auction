@@ -19,7 +19,7 @@ namespace Mini_Auction.ViewModel
 
         public DateTime EndTime { get; set; }
 
-        public List<BidVM> Bids { get; set; }
+        public List<BidVM> BidsVMs { get; set; }
 
         public Status Status { get; set; }
 
@@ -34,10 +34,11 @@ namespace Mini_Auction.ViewModel
                 StartingPrice = auction.StartingPrice,
                 EndTime = auction.EndTime,
                 Status = auction.Status,
+                BidsVMs = new List<BidVM>()
             };
             foreach (Bid b in auction.Bids)
             {
-                a.AddBids(new BidVM(b.Id, b.AuctionId, b.BidderId, b.Amount, b.BidTime));
+                a.AddBids(BidVM.FromBid(b));
             }
 
             return a;
@@ -45,8 +46,8 @@ namespace Mini_Auction.ViewModel
         
         public bool AddBids (BidVM b)
         {
-            Bids.Add(b);
-            if (Bids.Contains (b))
+            BidsVMs.Add(b);
+            if (BidsVMs.Contains (b))
             {
                 return true;
             }

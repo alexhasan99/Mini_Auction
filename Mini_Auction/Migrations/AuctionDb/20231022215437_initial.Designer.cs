@@ -12,8 +12,8 @@ using Mini_Auction.Persistence;
 namespace Mini_Auction.Migrations.AuctionDb
 {
     [DbContext(typeof(AuctionDbContext))]
-    [Migration("20231022121710_Bids_added")]
-    partial class Bids_added
+    [Migration("20231022215437_initial")]
+    partial class initial
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -64,7 +64,7 @@ namespace Mini_Auction.Migrations.AuctionDb
                         {
                             Id = 1,
                             Description = "Konsol",
-                            EndTime = new DateTime(2023, 10, 22, 14, 17, 10, 742, DateTimeKind.Local).AddTicks(4798),
+                            EndTime = new DateTime(2023, 10, 22, 23, 54, 37, 533, DateTimeKind.Local).AddTicks(7567),
                             StartingPrice = 3000.0,
                             Status = 1,
                             Title = "Playstation 5",
@@ -100,6 +100,29 @@ namespace Mini_Auction.Migrations.AuctionDb
                     b.ToTable("Bids");
                 });
 
+            modelBuilder.Entity("Mini_Auction.Persistence.ClosedAuctionDB", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<int>("AuctionId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("WinningBidId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("AuctionId");
+
+                    b.HasIndex("WinningBidId");
+
+                    b.ToTable("ClosedAuctionDBs");
+                });
+
             modelBuilder.Entity("Mini_Auction.Persistence.BidDB", b =>
                 {
                     b.HasOne("Mini_Auction.Persistence.AuctionDB", "AuctionDB")
@@ -109,6 +132,25 @@ namespace Mini_Auction.Migrations.AuctionDb
                         .IsRequired();
 
                     b.Navigation("AuctionDB");
+                });
+
+            modelBuilder.Entity("Mini_Auction.Persistence.ClosedAuctionDB", b =>
+                {
+                    b.HasOne("Mini_Auction.Persistence.AuctionDB", "AuctionDb")
+                        .WithMany()
+                        .HasForeignKey("AuctionId")
+                        .OnDelete(DeleteBehavior.NoAction)
+                        .IsRequired();
+
+                    b.HasOne("Mini_Auction.Persistence.BidDB", "WinningBid")
+                        .WithMany()
+                        .HasForeignKey("WinningBidId")
+                        .OnDelete(DeleteBehavior.NoAction)
+                        .IsRequired();
+
+                    b.Navigation("AuctionDb");
+
+                    b.Navigation("WinningBid");
                 });
 
             modelBuilder.Entity("Mini_Auction.Persistence.AuctionDB", b =>

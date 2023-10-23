@@ -10,17 +10,21 @@ namespace Mini_Auction.Persistence
 
         public DbSet<BidDB> Bids { get; set; }
 
-        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-        {
-
-            //optionsBuilder.AddInterceptors(new AuctionStatusInterceptor());
-
-        }
-
+        public DbSet<ClosedAuctionDB> ClosedAuctionDBs { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            
+
+            modelBuilder.Entity<ClosedAuctionDB>()
+            .HasOne(c => c.AuctionDb)
+            .WithMany()
+            .OnDelete(DeleteBehavior.NoAction);
+
+            modelBuilder.Entity<ClosedAuctionDB>()
+                .HasOne(c => c.WinningBid)
+                .WithMany()
+                .OnDelete(DeleteBehavior.NoAction);
+
             AuctionDB adb = new AuctionDB
             {
                 Id = 1,

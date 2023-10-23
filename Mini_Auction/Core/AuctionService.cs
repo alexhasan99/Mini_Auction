@@ -1,5 +1,5 @@
 ﻿using Mini_Auction.Core.Interfaces;
-using Mini_Auction.Persistence;
+using Mini_Auction.Persistence.Interfaces;
 using System.Globalization;
 
 namespace Mini_Auction.Core
@@ -31,6 +31,11 @@ namespace Mini_Auction.Core
             return _auctionPersistence.CreateAuction(auction);
         }
 
+        public void UpdateAuctionStatus()
+        {
+            _auctionPersistence.UpdateAuctionStatus();
+        }
+
         public Auction GetAuctionById(int id)
         {
             return _auctionPersistence.GetAuctionById(id);
@@ -39,6 +44,11 @@ namespace Mini_Auction.Core
         public List<Auction> GetAllAuctions()
         {
             return _auctionPersistence.GetAllActiveAuctions();
+        }
+
+        public bool UpdateDescription(Auction auction)
+        {
+            return _auctionPersistence.UpdateDescr(auction);
         }
 
         public bool PlaceBid(Bid bid)
@@ -50,5 +60,17 @@ namespace Mini_Auction.Core
             _auctionPersistence.PlaceBid(bid);
             return true;
         }
+
+        public List<Auction> GetAllActiveBiddenAuctions(string userName)
+        {
+            return _auctionPersistence.GetAllActiveBiddenAuctions(userName);
+        }
+
+
+        public List<Auction> GetClosedAuctionsWonByUser(string username)
+        {
+            return _auctionPersistence.GetClosedAuctionsWonByUser(username);
+        }
+
     }
 }

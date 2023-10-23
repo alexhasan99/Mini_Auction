@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Mini_Auction.Core.Interfaces;
 using Mini_Auction.Models;
 using System.Diagnostics;
 
@@ -8,13 +9,17 @@ namespace Mini_Auction.Controllers
     {
         private readonly ILogger<HomeController> _logger;
 
-        public HomeController(ILogger<HomeController> logger)
+        private readonly IAuctionService _auctionService;
+
+        public HomeController(ILogger<HomeController> logger, IAuctionService auctionService)
         {
             _logger = logger;
+            _auctionService = auctionService;
         }
 
         public IActionResult Index()
         {
+            _auctionService.UpdateAuctionStatus();
             return View();
         }
 

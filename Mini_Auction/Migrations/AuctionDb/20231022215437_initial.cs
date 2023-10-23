@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace Mini_Auction.Migrations.AuctionDb
 {
     /// <inheritdoc />
-    public partial class Initial : Migration
+    public partial class initial : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -51,20 +51,57 @@ namespace Mini_Auction.Migrations.AuctionDb
                         onDelete: ReferentialAction.Cascade);
                 });
 
+            migrationBuilder.CreateTable(
+                name: "ClosedAuctionDBs",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    AuctionId = table.Column<int>(type: "int", nullable: false),
+                    WinningBidId = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_ClosedAuctionDBs", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_ClosedAuctionDBs_Auctions_AuctionId",
+                        column: x => x.AuctionId,
+                        principalTable: "Auctions",
+                        principalColumn: "Id");
+                    table.ForeignKey(
+                        name: "FK_ClosedAuctionDBs_Bids_WinningBidId",
+                        column: x => x.WinningBidId,
+                        principalTable: "Bids",
+                        principalColumn: "Id");
+                });
+
             migrationBuilder.InsertData(
                 table: "Auctions",
                 columns: new[] { "Id", "Description", "EndTime", "StartingPrice", "Status", "Title", "userName" },
-                values: new object[] { 1, "Konsol", new DateTime(2023, 10, 21, 23, 10, 22, 658, DateTimeKind.Local).AddTicks(7341), 3000.0, 1, "Playstation 5", "mohammad.hasan19999@gmail.com" });
+                values: new object[] { 1, "Konsol", new DateTime(2023, 10, 22, 23, 54, 37, 533, DateTimeKind.Local).AddTicks(7567), 3000.0, 1, "Playstation 5", "mohammad.hasan19999@gmail.com" });
 
             migrationBuilder.CreateIndex(
                 name: "IX_Bids_AuctionId",
                 table: "Bids",
                 column: "AuctionId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_ClosedAuctionDBs_AuctionId",
+                table: "ClosedAuctionDBs",
+                column: "AuctionId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_ClosedAuctionDBs_WinningBidId",
+                table: "ClosedAuctionDBs",
+                column: "WinningBidId");
         }
 
         /// <inheritdoc />
         protected override void Down(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.DropTable(
+                name: "ClosedAuctionDBs");
+
             migrationBuilder.DropTable(
                 name: "Bids");
 

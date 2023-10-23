@@ -9,11 +9,12 @@ namespace Mini_Auction.Persistence
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }
 
-        [ForeignKey("AuctionId")]
+        [ForeignKey("AuctionDb")]
+        public int AuctionId { get; set; }
         public AuctionDB AuctionDb { get; set; }
 
-
-        [ForeignKey("WinnigBidId")]
-        public BidDB WinningBidId { get; set; }
+        [ForeignKey("WinningBid")]
+        public int WinningBidId { get; set; }
+        public BidDB WinningBid { get; set; }
     }
 }

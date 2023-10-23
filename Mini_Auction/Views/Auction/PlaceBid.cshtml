@@ -12,8 +12,12 @@
     <div class="col-md-4">
         <form asp-action="PlaceBid">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="Id" value="0" />
+            <input type="hidden" asp-for="AuctionId" value="@ViewContext.RouteData.Values["id"]" />
+            <input type="hidden" asp-for="BidderId" value="@User.Identity.Name" />
+            <input type="hidden" asp-for="BidTime" value="@DateTime.Now" />
             <div class="form-group">
-                <label asp-for="Amount" class="control-label"></label>
+                <label asp-for="Amount" class="control-label">Amount</label>
                 <input asp-for="Amount" class="form-control" />
                 <span asp-validation-for="Amount" class="text-danger"></span>
             </div>
@@ -25,9 +29,11 @@
 </div>
 
 <div>
-    <a asp-action="Index">Back to List</a>
+    <a asp-action="ActiveAuctions">Back to List</a>
 </div>
 
 @section Scripts {
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
 }

@@ -1,6 +1,6 @@
 ﻿using Mini_Auction.Core;
 
-namespace Mini_Auction.Persistence
+namespace Mini_Auction.Persistence.Interfaces
 {
     public interface IAuctionPersistence
     {
@@ -15,6 +15,14 @@ namespace Mini_Auction.Persistence
         public bool CanPlaceBid(Bid bid);
 
         public bool PlaceBid(Bid bid);
+
+        public void UpdateAuctionStatus();
+
+        public bool UpdateDescr(Auction auction);
+
+        public List<Auction> GetAllActiveBiddenAuctions(string userName);
+
+        public List<Auction> GetClosedAuctionsWonByUser(string username);
 
     }
 }

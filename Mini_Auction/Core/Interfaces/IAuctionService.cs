@@ -13,5 +13,14 @@
         List<Auction> GetAllAuctions();
 
         public bool PlaceBid(Bid bid);
+
+        public void UpdateAuctionStatus();
+
+        public bool UpdateDescription(Auction auction);
+
+        public List<Auction> GetAllActiveBiddenAuctions(string userName);
+
+        public List<Auction> GetClosedAuctionsWonByUser(string username);
+
     }
 }
