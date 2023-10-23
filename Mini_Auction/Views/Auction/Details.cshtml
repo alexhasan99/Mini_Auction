@@ -1,0 +1,99 @@
+﻿@model Mini_Auction.ViewModel.AuctionVM
+
+@{
+    ViewData["Title"] = "Details";
+}
+@{
+    var warningMessage = TempData["WarningMessage"] as string;
+}
+
+
+@if (!string.IsNullOrEmpty(warningMessage))
+{
+    <div class="alert alert-warning">
+        @warningMessage
+    </div>
+}
+
+<h1>Details</h1>
+
+<div>
+    <h4>AuctionVM</h4>
+    <hr />
+    <dl class="row">
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Id)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Id)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Title)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Title)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Description)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Description)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.SellerId)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.SellerId)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.StartingPrice)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.StartingPrice)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.EndTime)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.EndTime)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Status)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Status)
+        </dd>
+    </dl>
+</div>
+
+<div>
+    @Html.ActionLink("PlaceBid", "PlaceBid", new { id = Model.Id }) |
+    @Html.ActionLink("EditDescr", "EditDescr", new { id = Model.Id }) |
+    <a asp-action="ActiveAuctions">Back to List</a>
+</div>
+
+<!-- Lista över bud -->
+<div>
+    <h4>Bid List</h4>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Bidder Id</th>
+                <th>Amount</th>
+                <th>Bid Time</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var bid in Model.BidsVMs)
+            {
+                <tr>
+                    <td>@bid.Id</td>
+                    <td>@bid.BidderId</td>
+                    <td>@bid.Amount</td>
+                    <td>@bid.BidTime</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>

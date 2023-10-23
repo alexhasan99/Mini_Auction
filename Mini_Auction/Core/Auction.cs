@@ -1,5 +1,5 @@
 ﻿using Mini_Auction.ViewModel;
-using System.ComponentModel.DataAnnotations;
+
 
 namespace Mini_Auction.Core
 {
@@ -7,17 +7,14 @@ namespace Mini_Auction.Core
     {
         public int Id { get; set; }
 
-        [Required]
         public string Title { get; set; }
 
         public string Description { get; set; }
 
-        public string SellerId { get; set; }
+        public string UserName { get; set; }
+       
+        public double StartingPrice { get; set; }
 
-        [Required]
-        public decimal StartingPrice { get; set; }
-
-        [Required]
         public DateTime EndTime { get; set; }
 
         public Status Status { get; set; }
@@ -25,12 +22,12 @@ namespace Mini_Auction.Core
         public List<Bid> Bids { get; set; }
 
         public Auction(int id, string title, string description, 
-            string sellerId, decimal startingPrice, DateTime endTime, Status status)
+            string userName, double startingPrice, DateTime endTime, Status status)
         {
             Id = id;
             Title = title;
             Description = description;
-            SellerId = sellerId;
+            UserName = userName;
             StartingPrice = startingPrice;
             EndTime = endTime;
             Bids = new List<Bid>();
@@ -39,12 +36,40 @@ namespace Mini_Auction.Core
 
         public bool AddBids(Bid b)
         {
+
             Bids.Add(b);
             if (Bids.Contains(b))
             {
+                Bids = Bids.OrderByDescending(bid => bid.Amount).ToList();
                 return true;
             }
             return false;
         }
+
+        public bool RemoveBids(Bid b) {
+
+            Bids.Remove(b);
+            
+            if (Bids.Contains(b)) { 
+                return false;
+            }
+            return true;
+        }
+
+        public static Auction FromAuctionVM(AuctionVM auctionVM)
+        {
+            Auction auction= new Auction(auctionVM.Id, auctionVM.Title, auctionVM.Description,
+                auctionVM.SellerId, auctionVM.StartingPrice, auctionVM.EndTime, auctionVM.Status);
+            if (auctionVM.BidsVMs != null)
+            {
+                foreach (BidVM b in auctionVM.BidsVMs)
+                {
+                    auction.AddBids(new Bid(b.Id, b.AuctionId, b.BidderId, b.Amount, b.BidTime));
+                }
+            }
+            return auction;
+        }
+
+
     }
 }

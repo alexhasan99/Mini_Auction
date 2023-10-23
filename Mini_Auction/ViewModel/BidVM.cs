@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using Mini_Auction.Core;
+using System.ComponentModel.DataAnnotations;
 
 namespace Mini_Auction.ViewModel
 {
@@ -9,21 +10,22 @@ namespace Mini_Auction.ViewModel
         public int AuctionId { get; set; }
 
         public string BidderId { get; set; }
-
-        [Required]
-        public decimal Amount { get; set; }
-
-        [Required]
+        
+        public double Amount { get; set; }
+        
         public DateTime BidTime { get; set; }
 
-        public BidVM(int id, int auctionId, string bidderId, 
-            decimal amount, DateTime bidTime)
+        public static BidVM FromBid(Bid b)
         {
-            Id = id;
-            AuctionId = auctionId;
-            BidderId = bidderId;
-            Amount = amount;
-            BidTime = bidTime;
+            BidVM bidVM = new BidVM()
+            {
+                Id = b.Id,
+                Amount = b.Amount,
+                BidderId = b.BidderId,
+                AuctionId = b.AuctionId,
+                BidTime = b.BidTime,
+            };
+            return bidVM;
         }
     }
 }

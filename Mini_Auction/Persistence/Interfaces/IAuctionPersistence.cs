@@ -1,22 +1,24 @@
-﻿namespace Mini_Auction.Core.Interfaces
-{
-    public interface IAuctionService
-    {
-        List<Auction> GetAllByUser(string username);
+﻿using Mini_Auction.Core;
 
-        bool AddAuction(Auction a);
+namespace Mini_Auction.Persistence.Interfaces
+{
+    public interface IAuctionPersistence
+    {
+        public List<Auction> GetAllByUsername(string username);
 
         public bool CreateAuction(Auction auction);
 
         public Auction GetAuctionById(int id);
 
-        List<Auction> GetAllAuctions();
+        public List<Auction> GetAllActiveAuctions();
+
+        public bool CanPlaceBid(Bid bid);
 
         public bool PlaceBid(Bid bid);
 
         public void UpdateAuctionStatus();
 
-        public bool UpdateDescription(Auction auction);
+        public bool UpdateDescr(Auction auction);
 
         public List<Auction> GetAllActiveBiddenAuctions(string userName);
 

@@ -3,9 +3,13 @@ using Microsoft.AspNetCore.Mvc;
 using Mini_Auction.Core;
 using Mini_Auction.ViewModel;
 using Mini_Auction.Core.Interfaces;
+using Microsoft.AspNetCore.Authorization;
+using Mini_Auction.Persistence;
+using System.Collections.Generic;
 
 namespace Mini_Auction.Controllers
 {
+    [Authorize]
     public class AuctionController : Controller
     {
         private readonly IAuctionService _auctionService;
@@ -16,10 +20,12 @@ namespace Mini_Auction.Controllers
         }
 
         // GET: AuctionController
-        public ActionResult Index()
+        public ActionResult ActiveAuctions()
         {
+            _auctionService.UpdateAuctionStatus();
             List<AuctionVM> auctionVMs = new();
-            foreach (var auction in _auctionService.GetAllAuctions())
+            List<Auction> auctions = _auctionService.GetAllAuctions();
+            foreach (Auction auction in auctions)
             {
                 auctionVMs.Add(AuctionVM.FromAuction(auction));
             }
@@ -27,8 +33,103 @@ namespace Mini_Auction.Controllers
             return View(auctionVMs);
         }
 
+        //GET
+        public ActionResult GetUserAuctions()
+        {
+            _auctionService.UpdateAuctionStatus();
+            string userName = User.Identity.Name;
+            List<AuctionVM> auctionVMs = new List<AuctionVM>();
+            List<Auction> auctions = _auctionService.GetAllByUser(userName);
+
+            if(auctionVMs.Count == 0) NotFound();
+
+            foreach (Auction auction in auctions)
+            {
+                auctionVMs.Add(AuctionVM.FromAuction(auction));
+            }
+
+            return View("UserAuctions", auctionVMs); // Använd namnet på din nya vy här.
+        }
+
         // GET: AuctionController/Details/5
-        /*public ActionResult Details(int id)
+        public ActionResult Details(int id)
+        {
+            AuctionVM auctionVm = AuctionVM.FromAuction(_auctionService.GetAuctionById(id));
+
+            if (!auctionVm.SellerId.Equals(User.Identity.Name) && auctionVm.Status == 0 &&
+                !_auctionService.CheckWinner(User.Identity.Name, id))
+                return BadRequest();
+
+            return View(auctionVm);
+        }
+
+        public ActionResult BiddenAuctions()
+        {
+
+            List<AuctionVM> auctionVMs = new();
+            List<Auction> auctions = _auctionService.GetAllActiveBiddenAuctions(User.Identity.Name);
+
+            if (auctionVMs.Count == 0) NotFound();
+
+            foreach (Auction auction in auctions)
+            {
+                auctionVMs.Add(AuctionVM.FromAuction(auction));
+            }
+
+            return View(auctionVMs);
+        }
+
+        public ActionResult WinningAuctions()
+        {
+            List<AuctionVM> auctionVMs = new();
+            List<Auction> auctions = _auctionService.GetClosedAuctionsWonByUser(User.Identity.Name);
+
+            if (auctions.Count == 0)
+            {
+                TempData["Message"] = "Du har ingen vinnande auktioner.";
+                return RedirectToAction("ActiveAuctions");
+            }
+
+            foreach (Auction auction in auctions)
+            {
+                auctionVMs.Add(AuctionVM.FromAuction(auction));
+            }
+
+            return View(auctionVMs);
+        }
+
+        // POST: AuctionController/Create
+
+        [HttpPost]
+        public ActionResult Create(AuctionVM auctionVM)
+        {
+            auctionVM.SellerId = User.Identity.Name;
+            _auctionService.CreateAuction(Auction.FromAuctionVM(auctionVM));
+
+            return RedirectToAction(nameof(ActiveAuctions));
+        }
+
+        // POST: AuctionController/PlaceBid
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult PlaceBid(BidVM b)
+        {
+            
+            if (_auctionService.PlaceBid(Bid.FromBidVM(b)))
+            {
+                return RedirectToAction("Details", "Auction", new { id = b.AuctionId });
+            }
+            else
+            {
+                return RedirectToAction("Details", "Auction", new { id = b.AuctionId });
+            }
+           
+        }
+
+        
+        
+
+        public ActionResult PlaceBid()
         {
             return View();
         }
@@ -39,23 +140,8 @@ namespace Mini_Auction.Controllers
             return View();
         }
 
-        // POST: AuctionController/Create
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Create(IFormCollection collection)
-        {
-            try
-            {
-                return RedirectToAction(nameof(Index));
-            }
-            catch
-            {
-                return View();
-            }
-        }
-
         // GET: AuctionController/Edit/5
-        public ActionResult Edit(int id)
+        public ActionResult EditDescr()
         {
             return View();
         }
@@ -63,37 +149,16 @@ namespace Mini_Auction.Controllers
         // POST: AuctionController/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit(int id, IFormCollection collection)
+        public ActionResult EditDescr(AuctionVM auction)
         {
-            try
+            auction.SellerId = User.Identity.Name;
+            if (_auctionService.UpdateDescription(Auction.FromAuctionVM(auction)))
             {
-                return RedirectToAction(nameof(Index));
+                return RedirectToAction("Details", "Auction", new { id = auction.Id});
             }
-            catch
-            {
-                return View();
-            }
+
+            return RedirectToAction("Details", "Auction", new { id = auction.Id });
         }
 
-        // GET: AuctionController/Delete/5
-        public ActionResult Delete(int id)
-        {
-            return View();
-        }
-
-        // POST: AuctionController/Delete/5
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Delete(int id, IFormCollection collection)
-        {
-            try
-            {
-                return RedirectToAction(nameof(Index));
-            }
-            catch
-            {
-                return View();
-            }
-        }*/
     }
 }
