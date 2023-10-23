@@ -7,22 +7,12 @@
     var warningMessage = TempData["WarningMessage"] as string;
 }
 
-@{
-    var warningMessageDescr = TempData["warningMessageDescr"] as string;
-}
 
 @if (!string.IsNullOrEmpty(warningMessage))
 {
     <div class="alert alert-warning">
         @warningMessage
     </div>
-}
-
-if (!string.IsNullOrEmpty(warningMessageDescr))
-{
-<div class="alert alert-warning">
-    @warningMessageDescr
-</div>
 }
 
 <h1>Details</h1>

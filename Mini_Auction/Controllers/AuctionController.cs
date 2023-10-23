@@ -157,30 +157,8 @@ namespace Mini_Auction.Controllers
                 return RedirectToAction("Details", "Auction", new { id = auction.Id});
             }
 
-            TempData["warningMessageDescr"] =
-                    "Du kan inte ändra på denna Object";
             return RedirectToAction("Details", "Auction", new { id = auction.Id });
         }
 
-        // GET: AuctionController/Delete/5
-        public ActionResult Delete(int id)
-        {
-            return View();
-        }
-
-        // POST: AuctionController/Delete/5
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Delete(int id, IFormCollection collection)
-        {
-            try
-            {
-                return RedirectToAction(nameof(Index));
-            }
-            catch
-            {
-                return View();
-            }
-        }
     }
 }

@@ -15,7 +15,6 @@ namespace Mini_Auction.Persistence
         public AuctionSqlPersistense(AuctionDbContext dbContext)
         {
             _dbContext = dbContext;
-            //_mapper = mapper;
         }
 
         
@@ -197,7 +196,6 @@ namespace Mini_Auction.Persistence
                 .Where(ca => ca.WinningBid.userName == username)
                 .ToList();
 
-            // Skapa en lista för att hålla de avslutade auktionerna.
             List<Auction> closedAuctions = new List<Auction>();
 
             foreach (var closedAuction in closedAuctionsWonByUser)
