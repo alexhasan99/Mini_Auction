@@ -22,5 +22,7 @@
 
         public List<Auction> GetClosedAuctionsWonByUser(string username);
 
+        public bool CheckWinner(string userName, int id);
+
     }
 }

@@ -72,5 +72,10 @@ namespace Mini_Auction.Core
             return _auctionPersistence.GetClosedAuctionsWonByUser(username);
         }
 
+        public bool CheckWinner(string userName, int id)
+        {
+            return _auctionPersistence.CheckWinner(userName, id);
+        }
+
     }
 }

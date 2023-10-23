@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Microsoft.EntityFrameworkCore;
 using Mini_Auction.Core;
 using Mini_Auction.Persistence.Interfaces;
 using Mini_Auction.ViewModel;
@@ -170,6 +171,24 @@ namespace Mini_Auction.Persistence
             return true;
         }
 
+        public bool CheckWinner(string userName, int id)
+        {
+            var closedAuction = _dbContext.ClosedAuctionDBs
+        .Include(c => c.WinningBid)
+        .Where(c => c.AuctionId == id)
+        .FirstOrDefault();
+
+            if (closedAuction != null)
+            {
+                
+                if (closedAuction.WinningBid != null && closedAuction.WinningBid.userName == userName)
+                {
+                    return true;
+                }
+            }
+
+            return false;
+        }
 
         public List<Auction> GetClosedAuctionsWonByUser(string username)
         {

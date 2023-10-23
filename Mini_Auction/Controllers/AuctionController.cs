@@ -56,7 +56,8 @@ namespace Mini_Auction.Controllers
         {
             AuctionVM auctionVm = AuctionVM.FromAuction(_auctionService.GetAuctionById(id));
 
-            if (!auctionVm.SellerId.Equals(User.Identity.Name) && auctionVm.Status == 0)
+            if (!auctionVm.SellerId.Equals(User.Identity.Name) && auctionVm.Status == 0 &&
+                !_auctionService.CheckWinner(User.Identity.Name, id))
                 return BadRequest();
 
             return View(auctionVm);
