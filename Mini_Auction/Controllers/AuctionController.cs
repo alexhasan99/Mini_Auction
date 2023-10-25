@@ -121,6 +121,7 @@ namespace Mini_Auction.Controllers
             }
             else
             {
+                TempData["WarningMessage"] = "Du lagd lägre bud, vänligen lägg en högre bud!";
                 return RedirectToAction("Details", "Auction", new { id = b.AuctionId });
             }
            

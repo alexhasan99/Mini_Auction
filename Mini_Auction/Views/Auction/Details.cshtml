@@ -67,7 +67,10 @@
 </div>
 
 <div>
-    @Html.ActionLink("PlaceBid", "PlaceBid", new { id = Model.Id }) |
+    @if(!User.Identity.Name.Equals(Model.SellerId)){
+        @Html.ActionLink("PlaceBid", "PlaceBid", new { id = Model.Id })
+    }
+    
     @Html.ActionLink("EditDescr", "EditDescr", new { id = Model.Id }) |
     <a asp-action="ActiveAuctions">Back to List</a>
 </div>
