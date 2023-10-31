@@ -18,7 +18,7 @@
 <h1>Details</h1>
 
 <div>
-    <h4>AuctionVM</h4>
+    <h4>Auction Info</h4>
     <hr />
     <dl class="row">
         <dt class="col-sm-2">
@@ -70,8 +70,10 @@
     @if(!User.Identity.Name.Equals(Model.SellerId)){
         @Html.ActionLink("PlaceBid", "PlaceBid", new { id = Model.Id })
     }
-    
-    @Html.ActionLink("EditDescr", "EditDescr", new { id = Model.Id }) |
+    @if (User.Identity.Name.Equals(Model.SellerId))
+    {
+        @Html.ActionLink("EditDescr", "EditDescr", new { id = Model.Id })
+    }
     <a asp-action="ActiveAuctions">Back to List</a>
 </div>
 

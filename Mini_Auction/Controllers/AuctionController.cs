@@ -48,7 +48,7 @@ namespace Mini_Auction.Controllers
                 auctionVMs.Add(AuctionVM.FromAuction(auction));
             }
 
-            return View("UserAuctions", auctionVMs); // Använd namnet på din nya vy här.
+            return View("UserAuctions", auctionVMs); 
         }
 
         // GET: AuctionController/Details/5
